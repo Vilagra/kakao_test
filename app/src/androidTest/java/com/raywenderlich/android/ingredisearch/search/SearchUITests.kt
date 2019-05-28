@@ -1,12 +1,14 @@
 package com.raywenderlich.android.ingredisearch.search
 
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.common.views.KView
 import com.agoda.kakao.edit.KEditText
+import com.agoda.kakao.intent.KIntent
 import com.agoda.kakao.screen.Screen
 import com.agoda.kakao.text.KButton
 import com.raywenderlich.android.ingredisearch.R
+import com.raywenderlich.android.ingredisearch.searchResults.SearchResultsActivity
 import org.junit.Rule
 import org.junit.Test
 
@@ -26,7 +28,7 @@ class SearchUITests {
     // 2
     @Rule
     @JvmField
-    var rule = ActivityTestRule(SearchActivity::class.java)
+    var rule = IntentsTestRule(SearchActivity::class.java)
 
     // 3
     private val screen = SearchScreen()
@@ -47,6 +49,24 @@ class SearchUITests {
             ingredients.typeText("eggs, ham, cheese")
             searchButton.click()
             snackbar.doesNotExist()
+        }
+    }
+
+    @Test
+    fun search_withText_shouldLaunchSearchResults() {
+        screen {
+            val query = "eggs, ham, cheese"
+            // 1
+            ingredients.typeText(query)
+            searchButton.click()
+
+            // 2
+            val searchResultsIntent = KIntent {
+                hasComponent(SearchResultsActivity::class.java.name)
+                hasExtra("EXTRA_QUERY", query)
+            }
+            // 3
+            searchResultsIntent.intended()
         }
     }
 }
