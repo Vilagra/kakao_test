@@ -3,6 +3,7 @@ package com.raywenderlich.android.ingredisearch.search
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.common.views.KView
+import com.agoda.kakao.edit.KEditText
 import com.agoda.kakao.screen.Screen
 import com.agoda.kakao.text.KButton
 import com.raywenderlich.android.ingredisearch.R
@@ -14,6 +15,8 @@ class SearchScreen : Screen<SearchScreen>() {
     val snackbar = KView {
         withId(com.google.android.material.R.id.snackbar_text)
     }
+    val ingredients = KEditText { withId(R.id.ingredients) }
+
 }
 
 // 1
@@ -35,6 +38,15 @@ class SearchUITests {
         screen {
             searchButton.click()
             snackbar.isDisplayed()
+        }
+    }
+
+    @Test
+    fun search_withText_shouldNotShowSnackbarError() {
+        screen {
+            ingredients.typeText("eggs, ham, cheese")
+            searchButton.click()
+            snackbar.doesNotExist()
         }
     }
 }
