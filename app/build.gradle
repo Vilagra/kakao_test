@@ -50,7 +50,7 @@ android {
     vectorDrawables.useSupportLibrary = true
 
     buildConfigField 'String', 'FOOD2FORK_API_KEY', keystoreProperties['FOOD2FORK_API_KEY']
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "com.raywenderlich.android.ingredisearch.IngredisearchTestRunner"
   }
   buildTypes {
     release {
@@ -82,4 +82,5 @@ dependencies {
   androidTestImplementation 'androidx.test:rules:1.1.1'
   androidTestImplementation 'com.agoda.kakao:kakao:2.0.0'
   androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.1'
+  androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
 }
