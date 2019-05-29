@@ -66,6 +66,36 @@ class SearchResultsUITests {
             }
         }
     }
+
+    @Test
+    fun scrollToNotFavoriteAndMakeFavorite() {
+        screen {
+            recycler {
+                    scrollTo(0)
+                    childAt<Item>(0) {
+                        favButton.click()
+                        favButton.hasDrawable(R.drawable.ic_favorite_24dp)
+                    }
+                }
+            }
+        }
+
+    @Test
+    fun scrollToFavoriteAndMakeNotFavorite() {
+        screen {
+            recycler {
+                scrollTo(1)
+                childAt<Item>(1) {
+                    favButton.click()
+                    favButton.hasDrawable(R.drawable.ic_favorite_border_24dp)
+                }
+            }
+        }
+    }
+
+
+
+    
 }
 
 class Item(parent: Matcher<View>) : KRecyclerItem<Item>(parent) {
