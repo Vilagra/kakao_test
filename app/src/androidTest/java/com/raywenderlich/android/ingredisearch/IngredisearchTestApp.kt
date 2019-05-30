@@ -16,7 +16,7 @@ class IngredisearchTestApp : IngredisearchApp() {
             override fun getRecipes(query: String,
                                     callback: RepositoryCallback<List<Recipe>>) {
                 val list = listOf(
-                    buildRecipe(1, false),
+                    buildRecipe(1, false, "https://www.simplyrecipes.com/recipes/homemade_pizza"),
                     buildRecipe(2, true),
                     buildRecipe(3, false),
                     buildRecipe(4, false),
@@ -35,7 +35,7 @@ class IngredisearchTestApp : IngredisearchApp() {
         }
     }
 
-    private fun buildRecipe(id: Int, isFavorited: Boolean) =
-        Recipe(id.toString(), "Title " + id.toString(), "", "", isFavorited)
+    private fun buildRecipe(id: Int, isFavorited: Boolean, url:String = "") =
+        Recipe(id.toString(), "Title " + id.toString(), "", url, isFavorited)
 
 }

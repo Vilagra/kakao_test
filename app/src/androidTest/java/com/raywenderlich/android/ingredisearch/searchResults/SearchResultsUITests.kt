@@ -2,15 +2,17 @@ package com.raywenderlich.android.ingredisearch.searchResults
 
 import android.content.Intent
 import android.view.View
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.ActivityTestRule
 import com.agoda.kakao.image.KImageView
+import com.agoda.kakao.intent.KIntent
 import com.agoda.kakao.recycler.KRecyclerItem
 import com.agoda.kakao.recycler.KRecyclerView
 import com.agoda.kakao.screen.Screen
 import com.agoda.kakao.text.KTextView
 import com.raywenderlich.android.ingredisearch.R
+import com.raywenderlich.android.ingredisearch.recipe.RecipeActivity
 import org.hamcrest.Matcher
 import org.junit.Rule
 import org.junit.Test
@@ -21,8 +23,9 @@ class SearchResultsUITests {
 
     @Rule
     @JvmField
-    var rule: ActivityTestRule<SearchResultsActivity> =
-        object : ActivityTestRule<SearchResultsActivity>
+    var rule:
+        IntentsTestRule<SearchResultsActivity> =
+        object : IntentsTestRule<SearchResultsActivity>
         (SearchResultsActivity::class.java) {
 
             override fun getActivityIntent(): Intent {
@@ -93,9 +96,25 @@ class SearchResultsUITests {
         }
     }
 
+    @Test
+    fun shouldLaunchRecipeActivity() {
+        screen {
+            recycler {
+                scrollTo(0)
+                childAt<Item>(0) {
+                    click()
+
+                    val recipeIntent = KIntent {
+                        hasComponent(RecipeActivity::class.java.name)
+                        hasExtra("EXTRA_URL", "https://www.simplyrecipes.com/recipes/homemade_pizza")
+                    }
+                    recipeIntent.intended()
+                }
+            }
+        }
+    }
 
 
-    
 }
 
 class Item(parent: Matcher<View>) : KRecyclerItem<Item>(parent) {
